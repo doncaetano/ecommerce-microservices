@@ -1,0 +1,13 @@
+{
+  "name": "proto",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "compile:cart": "./scripts/compile-proto.sh cart"
+  },
+  "devDependencies": {
+    "grpc-tools": "^1.11.2",
+    "grpc_tools_node_protoc_ts": "^5.3.2"
+  }
+}

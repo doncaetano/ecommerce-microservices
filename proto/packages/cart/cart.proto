@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package cart;
+
+service Cart {
+  rpc GetSessionOpenCart(GetSessionOpenCartRequest) returns (GetSessionOpenCartResponse) {};
+}
+
+message GetSessionOpenCartRequest {
+  string sessionId = 1;
+}
+
+message GetSessionOpenCartResponse {
+  string id = 1;
+}
+

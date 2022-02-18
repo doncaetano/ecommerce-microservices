@@ -1,0 +1,5 @@
+# Dependency directories
+node_modules
+
+# Compiled proto files
+__generated__
