@@ -1,0 +1,11 @@
+# Dependency directories
+node_modules
+
+# Container data
+docker
+
+# Node build output
+build
+
+# Environment variables
+.env
