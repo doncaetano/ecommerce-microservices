@@ -1,5 +1,5 @@
 import { Pool } from 'pg';
-import { getPostgresPool, insert } from '../../infra/repo/pg';
+import { getPostgresPool, transaction } from '../../infra/repo/pg';
 import { IGetSessionDTO, ISessionDTO, ISessionRepo } from '../dtos';
 
 class PostgresSessionRepo implements ISessionRepo {
@@ -11,7 +11,7 @@ class PostgresSessionRepo implements ISessionRepo {
 
   async createSession(): Promise<ISessionDTO | undefined> {
     const client = await this.pool.connect();
-    const result = await insert<ISessionDTO>(
+    const result = await transaction<ISessionDTO>(
       client,
       'INSERT INTO session DEFAULT VALUES RETURNING id, created_at AS "createdAt";',
       []

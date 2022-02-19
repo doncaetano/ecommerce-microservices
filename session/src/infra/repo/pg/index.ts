@@ -31,7 +31,7 @@ export const getPostgresPool = () => {
   return pool;
 };
 
-export const insert = async <T>(
+export const transaction = async <T>(
   client: PoolClient,
   query: string,
   values: any[]
