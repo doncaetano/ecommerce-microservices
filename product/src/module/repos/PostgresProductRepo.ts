@@ -1,5 +1,5 @@
 import { Pool } from 'pg';
-import { getPostgresPool, insert } from '../../infra/repo/pg';
+import { getPostgresPool, transaction } from '../../infra/repo/pg';
 import {
   ICreateProductDTO,
   ICreateProductPromotionDTO,
@@ -10,6 +10,7 @@ import {
   IProductDTO,
   IProductPromotionDTO,
   IProductRepo,
+  IUpdateProductDTO,
 } from '../dtos';
 
 class PostgresProductRepo implements IProductRepo {
@@ -24,7 +25,7 @@ class PostgresProductRepo implements IProductRepo {
     price,
   }: ICreateProductDTO): Promise<IProductDTO> {
     const client = await this.pool.connect();
-    const result = await insert<IProductDTO>(
+    const result = await transaction<IProductDTO>(
       client,
       `INSERT INTO product (
           name
@@ -74,6 +75,55 @@ class PostgresProductRepo implements IProductRepo {
     return result.rows[0];
   }
 
+  async updateProduct({
+    id,
+    name,
+    price,
+  }: IUpdateProductDTO): Promise<IProductDTO> {
+    let param = 1;
+    const options = [
+      {
+        query: name ? 'name = $index' : '',
+        value: name,
+      },
+      {
+        query: price ? 'price = $index' : '',
+        value: price,
+      },
+    ];
+
+    const client = await this.pool.connect();
+    const result = await transaction<IProductDTO>(
+      client,
+      `
+      UPDATE product
+      SET ${options
+        .map(({ query, value }) => {
+          if (value === undefined) return query;
+          param += 1;
+          return query.replace('$index', `$${param}`);
+        })
+        .filter((query) => query !== '')
+        .join(' , ')}
+      WHERE id = $1
+      RETURNING id,
+        name,
+        price,
+        created_at AS "createdAt",
+        updated_at AS "updatedAt",
+        removed_at AS "removedAt"
+      `,
+      [
+        id,
+        ...options
+          .map(({ value }) => value)
+          .filter((value) => value !== undefined),
+      ]
+    );
+
+    return result.rows[0];
+  }
+
   async createProductPromotion({
     productId,
     name,
@@ -83,7 +133,7 @@ class PostgresProductRepo implements IProductRepo {
     validTo,
   }: ICreateProductPromotionDTO): Promise<IProductPromotionDTO> {
     const client = await this.pool.connect();
-    const result = await insert<IProductPromotionDTO>(
+    const result = await transaction<IProductPromotionDTO>(
       client,
       `INSERT INTO product_promotion (
           product_id,

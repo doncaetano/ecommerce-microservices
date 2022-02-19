@@ -287,7 +287,9 @@ proto.product.GetProductResponse.prototype.toObject = function(opt_includeInstan
  */
 proto.product.GetProductResponse.toObject = function(includeInstance, msg) {
   var f, obj = {
-    id: jspb.Message.getFieldWithDefault(msg, 1, "")
+    id: jspb.Message.getFieldWithDefault(msg, 1, ""),
+    price: jspb.Message.getFloatingPointFieldWithDefault(msg, 2, 0.0),
+    removedat: jspb.Message.getFieldWithDefault(msg, 3, "")
   };
 
   if (includeInstance) {
@@ -328,6 +330,14 @@ proto.product.GetProductResponse.deserializeBinaryFromReader = function(msg, rea
       var value = /** @type {string} */ (reader.readString());
       msg.setId(value);
       break;
+    case 2:
+      var value = /** @type {number} */ (reader.readFloat());
+      msg.setPrice(value);
+      break;
+    case 3:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setRemovedat(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -364,6 +374,20 @@ proto.product.GetProductResponse.serializeBinaryToWriter = function(message, wri
       f
     );
   }
+  f = message.getPrice();
+  if (f !== 0.0) {
+    writer.writeFloat(
+      2,
+      f
+    );
+  }
+  f = message.getRemovedat();
+  if (f.length > 0) {
+    writer.writeString(
+      3,
+      f
+    );
+  }
 };
 
 
@@ -382,6 +406,42 @@ proto.product.GetProductResponse.prototype.getId = function() {
  */
 proto.product.GetProductResponse.prototype.setId = function(value) {
   return jspb.Message.setProto3StringField(this, 1, value);
+};
+
+
+/**
+ * optional float price = 2;
+ * @return {number}
+ */
+proto.product.GetProductResponse.prototype.getPrice = function() {
+  return /** @type {number} */ (jspb.Message.getFloatingPointFieldWithDefault(this, 2, 0.0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.product.GetProductResponse} returns this
+ */
+proto.product.GetProductResponse.prototype.setPrice = function(value) {
+  return jspb.Message.setProto3FloatField(this, 2, value);
+};
+
+
+/**
+ * optional string removedAt = 3;
+ * @return {string}
+ */
+proto.product.GetProductResponse.prototype.getRemovedat = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.product.GetProductResponse} returns this
+ */
+proto.product.GetProductResponse.prototype.setRemovedat = function(value) {
+  return jspb.Message.setProto3StringField(this, 3, value);
 };
 
 

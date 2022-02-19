@@ -13,6 +13,8 @@ message GetProductRequest {
 
 message GetProductResponse {
   string id = 1;
+  float price = 2;
+  string removedAt = 3;
 }
 
 message GetProductBatchRequest {

@@ -9,7 +9,7 @@ export interface IProductDTO {
   price?: number;
   createdAt: string;
   updatedAt: string;
-  removedAt: string;
+  removedAt?: string;
 }
 
 export interface IProductPromotionDTO {
@@ -33,6 +33,12 @@ export interface IProductBatchDTO {
 
 export interface IGetProductDTO {
   id: string;
+}
+
+export interface IUpdateProductDTO {
+  id: string;
+  name?: string;
+  price?: number;
 }
 
 export interface ICreateProductDTO {
@@ -63,6 +69,7 @@ export interface IProductRepo {
   getProduct: (
     getProductDTO: IGetProductDTO
   ) => Promise<IProductDTO | undefined>;
+  updateProduct: (updateProductDTO: IUpdateProductDTO) => Promise<IProductDTO>;
   createProductPromotion: (
     createProductPromotionDTO: ICreateProductPromotionDTO
   ) => Promise<IProductPromotionDTO>;

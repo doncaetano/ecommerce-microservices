@@ -29,6 +29,10 @@ export namespace GetProductRequest {
 export class GetProductResponse extends jspb.Message { 
     getId(): string;
     setId(value: string): GetProductResponse;
+    getPrice(): number;
+    setPrice(value: number): GetProductResponse;
+    getRemovedat(): string;
+    setRemovedat(value: string): GetProductResponse;
 
     serializeBinary(): Uint8Array;
     toObject(includeInstance?: boolean): GetProductResponse.AsObject;
@@ -43,6 +47,8 @@ export class GetProductResponse extends jspb.Message {
 export namespace GetProductResponse {
     export type AsObject = {
         id: string,
+        price: number,
+        removedat: string,
     }
 }
 

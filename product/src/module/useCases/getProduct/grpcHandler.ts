@@ -27,8 +27,10 @@ const handler: UnaryHandler<
 
   const getProductResponse = new messages.GetProductResponse();
   if (result) {
-    const { id: productId } = result;
+    const { id: productId, price, removedAt } = result;
     getProductResponse.setId(productId);
+    if (price) getProductResponse.setPrice(price);
+    if (removedAt) getProductResponse.setRemovedat(removedAt);
   }
 
   callback(null, getProductResponse);
