@@ -4,7 +4,8 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "compile:cart": "./scripts/compile-proto.sh cart"
+    "compile:cart": "./scripts/compile-proto.sh cart",
+    "compile:product": "./scripts/compile-proto.sh product"
   },
   "devDependencies": {
     "grpc-tools": "^1.11.2",

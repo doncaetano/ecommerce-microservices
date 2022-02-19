@@ -1,0 +1,7 @@
+{
+  "editor.formatOnSave": true,
+  // "eslint.autoFixOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  } // (even though VSCode has this as deprecated), have tried with and without this line
+}
