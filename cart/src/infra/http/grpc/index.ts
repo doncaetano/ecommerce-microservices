@@ -13,7 +13,7 @@ const run = async (port: number) => {
   server.addService(services.CartService, cartService);
 
   server.bindAsync(
-    `localhost:${port}`,
+    `0.0.0.0:${port}`,
     grpc.ServerCredentials.createInsecure(),
     () => {
       console.info(`🚀 gRPC API started at http://localhost:${port}`);

@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "webpack --config webpack/webpack.dev.js",
     "lint": "eslint --fix --ext .js,.ts,.tsx",
-    "lint:ci": "eslint --ext .js,.ts,.tsx --quiet"
+    "lint:ci": "eslint --ext .js,.ts,.tsx --quiet",
+    "build": "webpack --config webpack/webpack.prod.js",
+    "start": "node ./build/index.js"
   },
   "dependencies": {
     "@grpc/grpc-js": "^1.5.5",
