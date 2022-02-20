@@ -1,0 +1,107 @@
+version: "3.4"
+
+services:
+  api-gateway:
+    container_name: api-gateway
+    build: ./api-gateway
+    ports:
+      - ${PORT:-8080}:8080
+      - 80:80
+    depends_on:
+      - cart
+      - product
+      - session
+    volumes:
+      - ./docker/api-gateway/logs:/etc/nginx/logs
+
+  cart:
+    build: ./cart
+    ports:
+      - "5001-5003:5000"
+      - "5101-5103:5100"
+    depends_on:
+      - postgres-cart
+    scale: 3
+    environment:
+      - NODE_ENV=production
+      - REST_API_PORT=5000
+      - GRPC_API_PORT=5100
+      - PRODUCT_API_URL=api-gateway:80
+      - PG_HOST=postgres-cart
+      - PG_PORT=5432
+      - PG_DATABASE=cart
+      - PG_USER=${CART_PG_USER}
+      - PG_PASSWORD=${CART_PG_PASSWORD}
+  
+  postgres-cart:
+    container_name: postgres-cart
+    restart: always
+    image: postgres:alpine
+    environment:
+      - POSTGRES_DB=cart
+      - POSTGRES_USER=${CART_PG_USER}
+      - POSTGRES_PASSWORD=${CART_PG_PASSWORD}
+    volumes:
+      - ./cart/database/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - 5432:5432
+
+  product:
+    build: ./product
+    ports:
+      - "6001-6003:5000"
+      - "6101-6103:5100"
+    depends_on:
+      - postgres-product
+    scale: 3
+    environment:
+      - NODE_ENV=production
+      - REST_API_PORT=5000
+      - GRPC_API_PORT=5100
+      - PG_HOST=postgres-product
+      - PG_PORT=5432
+      - PG_DATABASE=product
+      - PG_USER=${PRODUCT_PG_USER}
+      - PG_PASSWORD=${PRODUCT_PG_PASSWORD}
+
+  postgres-product:
+    container_name: postgres-product
+    restart: always
+    image: postgres:alpine
+    environment:
+      - POSTGRES_DB=product
+      - POSTGRES_USER=${PRODUCT_PG_USER}
+      - POSTGRES_PASSWORD=${PRODUCT_PG_PASSWORD}
+    volumes:
+      - ./product/database/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - 5433:5432
+
+  session:
+    build: ./session
+    ports:
+      - "7000:5000"
+    depends_on:
+      - postgres-session
+    environment:
+      - NODE_ENV=production
+      - REST_API_PORT=5000
+      - CART_API_URL=api-gateway:80
+      - PG_HOST=postgres-session
+      - PG_PORT=5432
+      - PG_DATABASE=session
+      - PG_USER=${SESSION_PG_USER}
+      - PG_PASSWORD=${SESSION_PG_PASSWORD}
+
+  postgres-session:
+    container_name: postgres-session
+    restart: always
+    image: postgres:alpine
+    environment:
+      - POSTGRES_DB=session
+      - POSTGRES_USER=${SESSION_PG_USER}
+      - POSTGRES_PASSWORD=${SESSION_PG_PASSWORD}
+    volumes:
+      - ./session/database/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - 5434:5432
