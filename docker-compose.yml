@@ -5,7 +5,7 @@ services:
     container_name: api-gateway
     build: ./api-gateway
     ports:
-      - ${PORT:-8080}:8080
+      - 8080:8080
       - 80:80
     depends_on:
       - cart
@@ -26,7 +26,7 @@ services:
       - NODE_ENV=production
       - REST_API_PORT=5000
       - GRPC_API_PORT=5100
-      - PRODUCT_API_URL=api-gateway:80
+      - PRODUCT_API_URL=api-gateway:8080
       - PG_HOST=postgres-cart
       - PG_PORT=5432
       - PG_DATABASE=cart
@@ -86,7 +86,7 @@ services:
     environment:
       - NODE_ENV=production
       - REST_API_PORT=5000
-      - CART_API_URL=api-gateway:80
+      - CART_API_URL=api-gateway:8080
       - PG_HOST=postgres-session
       - PG_PORT=5432
       - PG_DATABASE=session
