@@ -1,9 +1,12 @@
 import express, { ErrorRequestHandler, json } from 'express';
 import { ValidationError } from 'yup';
 import { createServer } from 'http';
+import swaggerUi from 'swagger-ui-express';
 import routes from '../../module/routes';
 import logger from '../../shared/logger';
 import RequestError from '../../shared/RequestError';
+
+const swaggerDocument = require('../../../docs/swagger.json');
 
 const errorHandler: ErrorRequestHandler = (err, _req, res, next) => {
   if (!err) next();
@@ -32,6 +35,7 @@ const run = async (port: number) => {
   const app = express();
 
   app.use(json());
+  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
   app.use(routes);
   app.use(errorHandler);
 
