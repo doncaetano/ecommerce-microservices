@@ -18,6 +18,12 @@ export interface ICartProductDTO {
   updatedAt: string;
 }
 
+export interface ICartSummaryDTO {
+  total: number;
+  subtotal: number;
+  discounts: number;
+}
+
 export interface IGetCartDTO {
   id?: string;
   sessionId?: string;

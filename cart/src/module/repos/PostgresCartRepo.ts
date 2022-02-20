@@ -129,13 +129,12 @@ class PostgresCartRepo implements ICartRepo {
       `
         UPDATE cart
         SET closed_at = $2
-        WHERE cart_id = $1
+        WHERE id = $1
         RETURNING id,
-          cart_id AS "cartId",
-          product_id AS "productId",
-          quantity,
+          session_id AS "sessionId",
           created_at AS "createdAt",
-          updated_at AS "updatedAt"
+          updated_at AS "updatedAt",
+          closed_at AS "closedAt"
       `,
       [id, closedAt]
     );

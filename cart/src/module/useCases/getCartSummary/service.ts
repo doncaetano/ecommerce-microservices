@@ -1,15 +1,24 @@
 import Product from '../../../infra/api/product';
-import { ICartRepo } from '../../dtos';
+import RequestError from '../../../shared/RequestError';
+import { ICartRepo, ICartSummaryDTO } from '../../dtos';
 
 export interface IGetCartSummaryInput {
   id: string;
 }
 
 export const service = async (
-  cartRepo: Pick<ICartRepo, 'listCartProducts'>,
+  cartRepo: Pick<ICartRepo, 'listCartProducts' | 'getCart'>,
   productApi: Pick<Product, 'getProductBatch'>,
   { id }: IGetCartSummaryInput
-): Promise<any> => {
+): Promise<ICartSummaryDTO> => {
+  const hasCart = await cartRepo.getCart({ id });
+  if (!hasCart)
+    throw new RequestError({
+      code: 'id',
+      message: 'Invalid cart id',
+      status: 400,
+    });
+
   const cartProducts = await cartRepo.listCartProducts({ cartId: id });
   const productIds = cartProducts.map(({ productId }) => productId);
   const products = await productApi.getProductBatch({ productIds });

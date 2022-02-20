@@ -10,7 +10,7 @@ export const service = async (
   cartRepo: ICartRepo,
   { id, close }: IGetCartInput
 ): Promise<ICartDTO | undefined> => {
-  const hasCart = cartRepo.getCart({ id });
+  const hasCart = await cartRepo.getCart({ id });
   if (!hasCart)
     throw new RequestError({
       code: 'id',
