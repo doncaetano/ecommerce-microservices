@@ -62,7 +62,7 @@ export interface IDeleteCartProductDTO {
 export type CartMessages = typeof cartMessages;
 
 export interface ICartRepo {
-  createCart(createCartDTO: ICreateCartDTO): Promise<ICartDTO | undefined>;
+  createCart(createCartDTO: ICreateCartDTO): Promise<ICartDTO>;
   getCart: (getCartDTO: IGetCartDTO) => Promise<ICartDTO | undefined>;
   listCarts: () => Promise<ICartDTO[]>;
   updateCart: (updateCartDTO: IUpdateCartDTO) => Promise<ICartDTO>;

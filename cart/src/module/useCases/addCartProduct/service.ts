@@ -13,6 +13,13 @@ export const service = async (
   productApi: Pick<Product, 'getProduct'>,
   { cartId, productId, quantity = 1 }: IAddCartProductInput
 ): Promise<ICartProductDTO> => {
+  if (quantity < 1)
+    throw new RequestError({
+      code: 'quantity',
+      message: 'Invalid quantity',
+      status: 400,
+    });
+
   const hasCart = await cartRepo.getCart({ id: cartId });
   if (!hasCart)
     throw new RequestError({

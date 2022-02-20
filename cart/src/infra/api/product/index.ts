@@ -7,11 +7,11 @@ import * as services from './product_grpc_pb';
 import * as messages from './product_pb';
 import { GetProductResponse, GetProductBatchResponse } from './product_pb';
 
-interface IGetProductInput {
+export interface IGetProductInput {
   productId: string;
 }
 
-interface IGetProductBatchInput {
+export interface IGetProductBatchInput {
   productIds: string[];
 }
 

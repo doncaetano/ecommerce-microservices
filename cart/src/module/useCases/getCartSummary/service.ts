@@ -6,8 +6,8 @@ export interface IGetCartSummaryInput {
 }
 
 export const service = async (
-  cartRepo: ICartRepo,
-  productApi: Product,
+  cartRepo: Pick<ICartRepo, 'listCartProducts'>,
+  productApi: Pick<Product, 'getProductBatch'>,
   { id }: IGetCartSummaryInput
 ): Promise<any> => {
   const cartProducts = await cartRepo.listCartProducts({ cartId: id });

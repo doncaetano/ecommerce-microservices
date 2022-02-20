@@ -5,9 +5,9 @@ export interface IGetSessionOpenCartInput {
 }
 
 export const service = async (
-  cartRepo: ICartRepo,
+  cartRepo: Pick<ICartRepo, 'getCart' | 'createCart'>,
   { sessionId }: IGetSessionOpenCartInput
-): Promise<ICartDTO | undefined> => {
+): Promise<ICartDTO> => {
   const openCart = await cartRepo.getCart({ sessionId, isOpen: true });
   if (openCart) return openCart;
 

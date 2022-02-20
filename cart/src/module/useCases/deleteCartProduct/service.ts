@@ -6,7 +6,7 @@ export interface IDeleteCartProductInput {
 }
 
 export const service = async (
-  cartRepo: ICartRepo,
+  cartRepo: Pick<ICartRepo, 'deleteCartProduct'>,
   { cartId, productId }: IDeleteCartProductInput
 ): Promise<void> => {
   return cartRepo.deleteCartProduct({ cartId, productId });

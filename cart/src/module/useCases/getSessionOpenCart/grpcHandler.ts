@@ -26,10 +26,8 @@ const handler: UnaryHandler<
   const result = await service(cartRepo, { sessionId });
 
   const getCartResponse = new messages.GetSessionOpenCartResponse();
-  if (result) {
-    const { id: cartId } = result;
-    getCartResponse.setId(cartId);
-  }
+  const { id: cartId } = result;
+  getCartResponse.setId(cartId);
 
   callback(null, getCartResponse);
 };

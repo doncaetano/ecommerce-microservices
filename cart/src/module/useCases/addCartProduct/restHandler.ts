@@ -14,7 +14,7 @@ const handler = async (
     const addCartProductSchema = object({
       id: string().uuid().required(),
       productId: string().uuid().required(),
-      quantity: number().optional(),
+      quantity: number().integer().optional(),
     });
 
     const { id, productId, quantity } = await addCartProductSchema.validate({

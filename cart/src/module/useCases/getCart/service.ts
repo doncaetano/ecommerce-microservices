@@ -7,7 +7,7 @@ export interface IGetCartInput {
 }
 
 export const service = async (
-  cartRepo: ICartRepo,
+  cartRepo: Pick<ICartRepo, 'getCart'>,
   { id, sessionId, isOpen }: IGetCartInput
 ): Promise<ICartDTO | undefined> => {
   return cartRepo.getCart({ id, sessionId, isOpen });
