@@ -1,5 +1,6 @@
 import { Response, Request, NextFunction } from 'express';
 import { object, string, number } from 'yup';
+import Product from '../../../infra/api/product';
 
 import PostgresCartRepo from '../../repos/PostgresCartRepo';
 import service from './service';
@@ -22,8 +23,13 @@ const handler = async (
       quantity: request.body.quantity,
     });
 
+    const productApi = new Product();
     const cartRepo = new PostgresCartRepo();
-    const result = await service(cartRepo, { cartId: id, productId, quantity });
+    const result = await service(cartRepo, productApi, {
+      cartId: id,
+      productId,
+      quantity,
+    });
 
     response.status(200).json(result);
   } catch (err) {

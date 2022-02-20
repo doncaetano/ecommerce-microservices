@@ -9,15 +9,15 @@ export interface IAddCartProductInput {
 }
 
 export const service = async (
-  cartRepo: ICartRepo,
+  cartRepo: Pick<ICartRepo, 'getCartProduct' | 'addCartProduct' | 'getCart'>,
+  productApi: Pick<Product, 'getProduct'>,
   { cartId, productId, quantity = 1 }: IAddCartProductInput
 ): Promise<ICartProductDTO> => {
-  const product = new Product();
-  const validProduct = await product.getProduct({ productId });
-  if (!validProduct.id || !validProduct.price || !validProduct.removedAt)
+  const hasCart = await cartRepo.getCart({ id: cartId });
+  if (!hasCart)
     throw new RequestError({
-      code: 'productId',
-      message: 'Invalid product id',
+      code: 'cartId',
+      message: 'Invalid cart id',
       status: 400,
     });
 
@@ -26,6 +26,14 @@ export const service = async (
     throw new RequestError({
       code: 'productId',
       message: 'Product is already added',
+      status: 400,
+    });
+
+  const validProduct = await productApi.getProduct({ productId });
+  if (!validProduct.id || !validProduct.price || validProduct.removedAt)
+    throw new RequestError({
+      code: 'productId',
+      message: 'Invalid product',
       status: 400,
     });
 
