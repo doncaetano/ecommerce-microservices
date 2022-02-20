@@ -18,7 +18,7 @@ export interface ICartAPI {
 }
 
 export interface ISessionRepo {
-  createSession: () => Promise<ISessionDTO | undefined>;
+  createSession: () => Promise<ISessionDTO>;
   getSession: (
     getSessionDTO: IGetSessionDTO
   ) => Promise<ISessionDTO | undefined>;

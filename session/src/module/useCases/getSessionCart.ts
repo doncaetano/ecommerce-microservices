@@ -49,7 +49,7 @@ const handler = async (
     const cartApi = new Cart();
     const result = await execute(sessionRepo, cartApi, { id });
 
-    response.status(200).json({
+    response.status(201).json({
       id: result?.cartId,
     });
   } catch (err) {

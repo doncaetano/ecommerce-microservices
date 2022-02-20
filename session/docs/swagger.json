@@ -1,0 +1,111 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Session API",
+    "description": "Session microservice used in the e-commerce application",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:7000",
+      "description": "Local test API"
+    }
+  ],
+  "paths": {
+    "/": {
+      "post": {
+        "summary": "Create a session",
+        "description": "This route is used to create a session",
+        "tags": ["Session"],
+        "responses": {
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Session"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/{id}/cart": {
+      "get": {
+        "summary": "Create a session cart",
+        "description": "This route is used to create a session cart",
+        "tags": ["Session"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id of the session",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Session"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Session": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "RequestError": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "description": "Code related to the error",
+                "type": "string"
+              },
+              "message": {
+                "description": "Message describing the error",
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

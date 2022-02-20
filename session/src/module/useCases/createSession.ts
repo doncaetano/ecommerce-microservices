@@ -9,7 +9,7 @@ interface ICreateSessionResult {
 
 export const execute = async (
   repo: ISessionRepo
-): Promise<ICreateSessionResult | undefined> => {
+): Promise<ICreateSessionResult> => {
   return repo.createSession();
 };
 

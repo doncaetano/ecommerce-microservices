@@ -9,7 +9,7 @@ class PostgresSessionRepo implements ISessionRepo {
     this.pool = getPostgresPool();
   }
 
-  async createSession(): Promise<ISessionDTO | undefined> {
+  async createSession(): Promise<ISessionDTO> {
     const client = await this.pool.connect();
     const result = await transaction<ISessionDTO>(
       client,
