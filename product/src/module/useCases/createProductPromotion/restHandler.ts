@@ -1,5 +1,5 @@
 import { Response, Request, NextFunction } from 'express';
-import { object, string, number } from 'yup';
+import { object, string, number, date } from 'yup';
 
 import PostgresProductRepo from '../../repos/PostgresProductRepo';
 import execute from './service';
@@ -11,7 +11,7 @@ const handler = async (
 ): Promise<void> => {
   try {
     const createProductPromotionSchema = object({
-      productId: string().uuid().required(),
+      id: string().uuid().required(),
       name: string().required(),
       fixedDiscount: number().optional(),
       percentageDiscount: number().optional(),
@@ -19,21 +19,27 @@ const handler = async (
       validTo: string().required(),
     });
 
-    const {
-      productId,
-      name,
-      fixedDiscount,
-      percentageDiscount,
+    const { id, name, fixedDiscount, percentageDiscount, validFrom, validTo } =
+      await createProductPromotionSchema.validate({
+        ...request.params,
+        name: request.body.name,
+        fixedDiscount: request.body.fixedDiscount,
+        percentageDiscount: request.body.percentageDiscount,
+        validFrom: request.body.validFrom,
+        validTo: request.body.validTo,
+      });
+
+    await object({
+      validFrom: date(),
+      validTo: date(),
+    }).validate({
       validFrom,
       validTo,
-    } = await createProductPromotionSchema.validate({
-      ...request.body,
-      productId: request.params.id,
     });
 
     const productRepo = new PostgresProductRepo();
     const result = await execute(productRepo, {
-      productId,
+      productId: id,
       name,
       fixedDiscount,
       percentageDiscount,

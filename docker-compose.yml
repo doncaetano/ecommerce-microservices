@@ -49,8 +49,8 @@ services:
   product:
     build: ./product
     ports:
-      - "6001-6003:5000"
-      - "6101-6103:5100"
+      - "4001-4003:5000"
+      - "4101-4103:5100"
     depends_on:
       - postgres-product
     scale: 3

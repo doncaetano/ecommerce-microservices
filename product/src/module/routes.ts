@@ -14,6 +14,6 @@ productRouter.get('/', listProductsHandler);
 productRouter.get('/:id', getProductHandler);
 productRouter.put('/:id', updateProductHandler);
 productRouter.post('/:id/promotion', createProductPromotionHandler);
-productRouter.get('/:productId/promotion', listProductPromotionsHandler);
+productRouter.get('/:id/promotion', listProductPromotionsHandler);
 
 export default productRouter;

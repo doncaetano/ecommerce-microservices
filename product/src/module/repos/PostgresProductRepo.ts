@@ -29,9 +29,9 @@ class PostgresProductRepo implements IProductRepo {
       client,
       `INSERT INTO product (
           name
-          ${price ? `, price` : ''}
+          ${price !== undefined ? `, price` : ''}
         )
-      VALUES ($1 ${price ? `, $2` : ''})
+      VALUES ($1 ${price !== undefined ? `, $2` : ''})
       RETURNING id,
         name,
         price,
@@ -83,11 +83,11 @@ class PostgresProductRepo implements IProductRepo {
     let param = 1;
     const options = [
       {
-        query: name ? 'name = $index' : '',
+        query: name !== undefined ? 'name = $index' : '',
         value: name,
       },
       {
-        query: price ? 'price = $index' : '',
+        query: price !== undefined ? 'price = $index' : '',
         value: price,
       },
     ];

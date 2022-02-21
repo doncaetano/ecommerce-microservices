@@ -19,7 +19,7 @@ const handler = async (
     const productRepo = new PostgresProductRepo();
     const result = await execute(productRepo, { id });
 
-    response.status(201).json(result);
+    response.status(200).json(result);
   } catch (err) {
     next(err);
   }

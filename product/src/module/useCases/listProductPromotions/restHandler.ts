@@ -11,17 +11,15 @@ const handler = async (
 ): Promise<void> => {
   try {
     const listProductPromotionsSchema = object({
-      productId: string().uuid().required(),
+      id: string().uuid().required(),
     });
 
-    const { productId } = await listProductPromotionsSchema.validate(
-      request.params
-    );
+    const { id } = await listProductPromotionsSchema.validate(request.params);
 
     const productRepo = new PostgresProductRepo();
-    const result = await execute(productRepo, { productId });
+    const result = await execute(productRepo, { productId: id });
 
-    response.status(201).json(result);
+    response.status(200).json(result);
   } catch (err) {
     next(err);
   }
