@@ -7,6 +7,10 @@
   },
   "servers": [
     {
+      "url": "http://ec2-3-87-81-122.compute-1.amazonaws.com/session",
+      "description": "AWS EC2 instance"
+    },
+    {
       "url": "http://localhost:7000",
       "description": "Local test API"
     }
