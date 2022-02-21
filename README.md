@@ -1,6 +1,6 @@
 # E-commerce : A microservice approach
 
-Sample e-commerce application based on microservice architecture and built with Typescript, Node.js, Express, gRPC and Nginx.
+Sample e-commerce application based on microservice architecture and built with Typescript, Node.js, Express, gRPC and Nginx, where each folder represents a microservice repo.
 
 ## API gateway and load balancer
 
